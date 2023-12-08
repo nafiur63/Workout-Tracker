@@ -30,3 +30,39 @@ def insert_workout(name,reps,weight):
     cur.execute(query, (name,reps,weight))
     db.commit()
     db.close()
+
+
+def get_all_workouts():
+
+    db = sqlite3.connect()
+
+    query = """ SELECT NAME,REPS,WEIGHT FROM WORKOUTS """
+
+    cur = db.cursor()
+    workouts_io = cur.execute(query)
+    workouts_list = [i for i in workouts_io]
+    db.close()
+
+    return workouts_list
+
+
+def update_workout(workout_id, workout_rep, workout_weight):
+
+    db = sqlite3.connect('database.db')
+
+    query = """ UPDATE WORKOUTS SET REP = ?, WEIGHT = ? WHERE ID = ?"""
+
+    cur = db.cursor()
+    cur.execute(query,(workout_rep,workout_weight,workout_id))
+    db.commit()
+    db.close()
+
+def delete_workout(workout_id):
+
+    db = sqlite3.connect('database.db')
+
+    query = """ DELETE FROM WORKOUTS WHERE ID = ?"""
+
+    db.execute(query,workout_id)
+    db.commit()
+    db.close()
